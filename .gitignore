@@ -1,0 +1,27 @@
+# Git ignore for voice-translate-app
+
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Node / Expo
+node_modules/
+.expo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+server.log
+*.log
+.web/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
