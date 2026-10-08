@@ -18,12 +18,7 @@ interface HomeScreenProps {
 
 const getDefaultServerUrl = (): string => {
   if (typeof window !== 'undefined' && window.location?.hostname) {
-    const port = window.location.port;
-    if (!port || port === '80' || port === '443' || port === '3000') {
-      return window.location.origin;
-    }
-    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-    return `${protocol}//${window.location.hostname}:8000`;
+    return window.location.origin;
   }
   return 'http://192.168.100.101:8000';
 };
