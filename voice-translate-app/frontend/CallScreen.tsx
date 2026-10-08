@@ -37,6 +37,7 @@ export const CallScreen: React.FC<CallScreenProps> = ({ config, onHangUp }) => {
   const wsRef = useRef<WebSocket | null>(null);
   const activeRecordingRef = useRef<Audio.Recording | null>(null);
   const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const pingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const participantIdRef = useRef<string>(`user_${Math.random().toString(36).substring(2, 9)}`);
   const audioQueueRef = useRef<string[]>([]);
   const isPlayingRef = useRef<boolean>(false);
@@ -120,6 +121,12 @@ export const CallScreen: React.FC<CallScreenProps> = ({ config, onHangUp }) => {
       if (recordingAllowed) {
         startChunkRecording();
       }
+      // Heartbeat ping every 10 seconds to keep WebSocket active
+      pingIntervalRef.current = setInterval(() => {
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify({ type: 'ping' }));
+        }
+      }, 10000);
     };
 
     ws.onmessage = async (event) => {
@@ -329,6 +336,11 @@ export const CallScreen: React.FC<CallScreenProps> = ({ config, onHangUp }) => {
     if (recordingIntervalRef.current) {
       clearInterval(recordingIntervalRef.current);
       recordingIntervalRef.current = null;
+    }
+
+    if (pingIntervalRef.current) {
+      clearInterval(pingIntervalRef.current);
+      pingIntervalRef.current = null;
     }
 
     if (activeRecordingRef.current) {

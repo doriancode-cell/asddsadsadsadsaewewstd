@@ -26,6 +26,8 @@ const server = http.createServer((req, res) => {
 });
 
 server.on('upgrade', (req, socket, head) => {
+  // Keep-alive settings for WebSocket socket connection to prevent premature timeouts
+  socket.setKeepAlive(true, 10000);
   if (req.url.startsWith('/ws')) {
     proxy.ws(req, socket, head, { target: 'http://127.0.0.1:8000' });
   } else {
