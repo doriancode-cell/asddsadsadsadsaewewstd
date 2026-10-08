@@ -143,9 +143,17 @@ export const CallScreen: React.FC<CallScreenProps> = ({ config, onHangUp }) => {
       setErrorMessage(`No se pudo conectar con el servidor (${config.serverUrl}).`);
     };
 
-    ws.onclose = () => {
-      console.log('WebSocket Closed');
+    ws.onclose = (event) => {
+      console.log('WebSocket Closed:', event.code, event.reason);
       setIsConnected(false);
+
+      // Automatic reconnect logic if connection drops during active call
+      setTimeout(() => {
+        if (wsRef.current?.readyState !== WebSocket.OPEN) {
+          console.log('Attempting WebSocket reconnection...');
+          connectWebSocket(recordingAllowed);
+        }
+      }, 2000);
     };
   };
 
