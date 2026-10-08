@@ -84,14 +84,31 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onJoinRoom }) => {
     }
   };
 
-  const handleJoinRoom = () => {
+  const handleJoinRoom = async () => {
     setHomeError(null);
     const cleanedCode = inputRoomId.trim().toUpperCase();
     if (!cleanedCode) {
       setHomeError('Por favor ingresa un código de sala válido (ej. ABC-123).');
       return;
     }
+    setLoading(true);
     const formattedUrl = serverUrl.replace(/\/$/, '');
+    try {
+      const response = await fetch(`${formattedUrl}/api/rooms/${cleanedCode}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (!data.exists) {
+          setHomeError(`La sala "${cleanedCode}" no existe. Verifica el código e intenta de nuevo.`);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (e: any) {
+      console.warn('Error checking room info:', e);
+    } finally {
+      setLoading(false);
+    }
+
     onJoinRoom({
       roomId: cleanedCode,
       speakLang,
