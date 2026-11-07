@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>La Centena Clothes — Esenciales Cotidianos Sin Marca</title>
+  <meta name="description" content="E-commerce de prendas esenciales unicolor, básicas, sin logos ni marcas visibles. Calidad durable, cortes atemporales y diseño minimalista." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & EB Garamond -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <!-- Tailwind CSS v3 with Plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#191817",
+            "primary-container": "#1c1b1a",
+            "secondary": "#605e5b",
+            "secondary-container": "#e6e2dd",
+            "tertiary": "#8c887b",
+            "surface": "#fbfbfa",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#fbfbfa",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f5f4f0",
+            "surface-container": "#eeeeed",
+            "surface-container-high": "#e8e8e7",
+            "surface-container-highest": "#e2e2e2",
+            "background": "#fbfbfa",
+            "on-surface": "#1a1c1c",
+            "on-surface-variant": "#4a4640",
+            "outline": "#7b766f",
+            "outline-variant": "#ebe8e1"
+          },
+          fontFamily: {
+            "display": ["Plus Jakarta Sans", "sans-serif"],
+            "headline": ["Plus Jakarta Sans", "sans-serif"],
+            "body": ["Plus Jakarta Sans", "sans-serif"],
+            "serif": ["EB Garamond", "serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: 300;
+      font-style: normal;
+      font-size: 1.25rem;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fbfbfa;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e2e2e2;
+    }
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary selection:text-white min-h-screen flex flex-col justify-between">
+
+  <!-- TOP BANNER: Sutil, sin bordes pesados -->
+  <aside id="top-announcement" class="bg-surface-container-low text-secondary text-xs py-2 px-6 tracking-widest uppercase text-center flex justify-between items-center transition-opacity">
+    <div class="w-6 hidden md:block"></div>
+    <p class="mx-auto font-medium">Envíos sin costo en órdenes a partir de $120.000 COP · Esenciales garantizados</p>
+    <button aria-label="Cerrar aviso" onclick="document.getElementById('top-announcement').style.display='none'" class="text-secondary hover:text-primary transition-colors">
+      <span class="material-symbols-outlined text-sm">close</span>
+    </button>
+  </aside>
+
+  <!-- NAVBAR: Limpia, espaciada, translúcida, sin bordes agresivos -->
+  <header class="sticky top-0 z-40 bg-surface/85 backdrop-blur-md transition-all border-b border-outline-variant/60">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
+      <!-- Wordmark minimalista -->
+      <a href="#" class="text-xl md:text-2xl font-light tracking-[0.22em] uppercase text-primary">
+        LA CENTENA
+      </a>
+
+      <!-- Navegación por colecciones clave -->
+      <nav class="hidden md:flex items-center gap-10 text-xs uppercase tracking-widest font-normal text-secondary">
+        <a href="#catalogo" class="hover:text-primary transition-colors text-primary border-b border-primary pb-0.5">Catálogo Completo</a>
+        <a href="#catalogo" onclick="setCategoryFilter('camisetas')" class="hover:text-primary transition-colors">Camisetas Pesadas</a>
+        <a href="#catalogo" onclick="setCategoryFilter('pantalones')" class="hover:text-primary transition-colors">Chinos & Pantalones</a>
+        <a href="#catalogo" onclick="setCategoryFilter('fleece')" class="hover:text-primary transition-colors">Buzos & Hoodies</a>
+        <a href="#manifiesto" class="hover:text-primary transition-colors">Filosofía</a>
+      </nav>
+
+      <!-- Acciones de cabecera -->
+      <div class="flex items-center gap-6 text-xs uppercase tracking-widest text-secondary">
+        <span class="hidden sm:inline-block font-mono text-primary/70">COP ($)</span>
+        <button id="bag-button" onclick="toggleCartDrawer(true)" class="flex items-center gap-2 text-primary hover:opacity-75 transition-opacity py-1">
+          <span class="material-symbols-outlined text-lg">shopping_bag</span>
+          <span id="bag-badge" class="tracking-normal font-mono text-sm">(0)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO EDITORIAL: Mucho espacio negativo, fotografía limpia y serena -->
+  <main class="flex-grow">
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pt-10 pb-20 md:py-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
+        <div class="lg:col-span-7 bg-surface-container-low overflow-hidden">
+          <div class="aspect-[4/3] md:aspect-[16/10] w-full overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1400&q=80"
+              alt="Prendas básicas de algodón pesado unicolor de La Centena Clothes"
+              class="w-full h-full object-cover object-center grayscale contrast-[0.95] hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col justify-end space-y-6">
+          <span class="text-xs uppercase tracking-[0.25em] text-secondary font-medium block">
+            Colección Esencial Permanente
+          </span>
+          <h1 class="text-3xl md:text-5xl font-light tracking-tight leading-tight text-primary">
+            Lo que no puede faltar.<br/>
+            <span class="font-serif italic font-normal text-secondary">Sin logotipos, sin distracciones.</span>
+          </h1>
+          <p class="text-sm text-secondary leading-relaxed font-light max-w-md">
+            Ropa cotidiana unicolor confeccionada para durar. Algodón de gramaje denso, costuras reforzadas y siluetas relajadas pensadas para la repetición diaria. Calidad honesta y suficiente, sin pretensiones.
+          </p>
+          <div class="pt-4 flex flex-wrap gap-4 items-center">
+            <a href="#catalogo" class="bg-primary text-white text-xs uppercase tracking-widest px-8 py-4 hover:bg-neutral-800 transition-colors inline-block text-center">
+              Ver Colección
+            </a>
+            <a href="#manifiesto" class="text-primary text-xs uppercase tracking-widest px-6 py-4 hover:underline transition-all inline-block">
+              Nuestro Criterio →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTRO MINIMALISTA SUAVE (Pills sin bordes fuertes) -->
+    <section id="catalogo" class="sticky top-[73px] z-30 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 py-4 px-6 md:px-12">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+        <!-- Pills de Categorías -->
+        <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none" id="categories-bar">
+          <button onclick="setCategoryFilter('todos')" class="cat-pill active-cat px-4 py-1.5 rounded-full text-xs uppercase tracking-wider bg-primary text-white transition-all">
+            Todos (6)
+          </button>
+          <button onclick="setCategoryFilter('camisetas')" class="cat-pill px-4 py-1.5 rounded-full text-xs uppercase tracking-wider bg-surface-container text-secondary hover:text-primary transition-all">
+            Camisetas
+          </button>
+          <button onclick="setCategoryFilter('pantalones')" class="cat-pill px-4 py-1.5 rounded-full text-xs uppercase tracking-wider bg-surface-container text-secondary hover:text-primary transition-all">
+            Pantalones Chino
+          </button>
+          <button onclick="setCategoryFilter('fleece')" class="cat-pill px-4 py-1.5 rounded-full text-xs uppercase tracking-wider bg-surface-container text-secondary hover:text-primary transition-all">
+            Buzos & Hoodies
+          </button>
+        </div>
+
+        <div class="text-xs text-secondary tracking-widest uppercase font-mono">
+          Prendas 100% Unicolor
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID DE PRODUCTOS: Espacioso, suave, sin bordes pesados -->
+    <section class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24">
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        <!-- Renderizado dinámico vía JavaScript -->
+      </div>
+    </section>
+
+    <!-- SECCIÓN FILOSOFÍA / MANIFIESTO: Espacio negativo, tipografía limpia -->
+    <section id="manifiesto" class="bg-surface-container-low py-24 md:py-32 px-6 md:px-12 border-t border-outline-variant/40">
+      <div class="max-w-4xl mx-auto text-center space-y-8">
+        <span class="text-xs uppercase tracking-[0.3em] text-secondary font-medium">El Criterio de La Centena</span>
+        <h2 class="text-2xl md:text-4xl font-light tracking-tight text-primary">
+          Ni lujo inalcanzable, ni desechable.<br/>
+          Ropa básica honesta, bien resuelta.
+        </h2>
+        <p class="text-secondary text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-light">
+          Creemos que el vestuario diario no necesita logotipos visibles ni temporadas efímeras. La Centena Clothes nace con el objetivo de ofrecer prendas básicas en paletas neutras unicolor, con tela de peso sustancial que aguante lavado tras lavado. Lo necesario, con dignidad y buen calce.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 text-left">
+          <div class="space-y-2">
+            <span class="font-mono text-xs text-secondary tracking-widest">01 / GRAMAJE</span>
+            <h3 class="text-base font-normal text-primary">Algodón Pesado 240+ GSM</h3>
+            <p class="text-xs text-secondary leading-relaxed">Caída firme que no se deforma ni se transparenta con el uso diario.</p>
+          </div>
+          <div class="space-y-2">
+            <span class="font-mono text-xs text-secondary tracking-widest">02 / CERO MARCAS</span>
+            <h3 class="text-base font-normal text-primary">Exterior 100% Limpio</h3>
+            <p class="text-xs text-secondary leading-relaxed">Sin estampados, bordados externos ni tipografías. La prenda te pertenece a ti.</p>
+          </div>
+          <div class="space-y-2">
+            <span class="font-mono text-xs text-secondary tracking-widest">03 / UNICOLOR</span>
+            <h3 class="text-base font-normal text-primary">Paletas Silenciosas</h3>
+            <p class="text-xs text-secondary leading-relaxed">Hueso crudo, grafito, negro ónix y verde olivo lavado. Combinan sin esfuerzo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SHOPPING CART SLIDE-OUT DRAWER -->
+  <div id="cart-drawer-overlay" class="fixed inset-0 bg-primary/30 backdrop-blur-[4px] z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="cart-drawer" class="absolute top-0 right-0 h-full w-full max-w-md bg-surface border-l border-outline-variant/60 translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between">
+
+      <!-- Cart Header -->
+      <div class="p-6 border-b border-outline-variant/60 flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-light tracking-wide text-primary">Bolsa de Compra</h2>
+          <span id="cart-items-count-text" class="text-xs font-mono text-secondary">0 artículos</span>
+        </div>
+        <button aria-label="Cerrar bolsa" onclick="toggleCartDrawer(false)" class="text-secondary hover:text-primary transition-colors p-2">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Shipping notice -->
+      <div id="cart-shipping-bar" class="px-6 py-3 bg-surface-container text-xs text-secondary border-b border-outline-variant/40">
+        <p id="shipping-status-text">Envío gratis disponible a partir de $120.000 COP</p>
+        <div class="w-full bg-outline-variant/60 h-1 mt-2 overflow-hidden">
+          <div id="shipping-progress" class="bg-primary h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Cart Item List -->
+      <div id="cart-items-list" class="flex-grow overflow-y-auto p-6 space-y-6">
+        <!-- Renderizado dinámico -->
+      </div>
+
+      <!-- Cart Footer -->
+      <div class="p-6 border-t border-outline-variant/60 bg-surface space-y-4">
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between text-secondary">
+            <span>Subtotal</span>
+            <span id="cart-subtotal" class="font-mono text-primary text-sm">$0 COP</span>
+          </div>
+          <div class="flex justify-between text-secondary">
+            <span>Envío</span>
+            <span id="cart-shipping-cost" class="font-mono text-primary">Calculado al finalizar</span>
+          </div>
+          <div class="flex justify-between text-base font-normal text-primary pt-2 border-t border-outline-variant/40">
+            <span>Total</span>
+            <span id="cart-total" class="font-mono font-medium">$0 COP</span>
+          </div>
+        </div>
+
+        <button onclick="handleCheckout()" class="w-full bg-primary text-white py-4 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors flex items-center justify-center gap-2">
+          <span>Continuar al Pago</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </button>
+
+        <div class="text-center text-[11px] text-secondary font-mono tracking-wider">
+          PAGO 100% SEGURO · ENVÍO A TODA COLOMBIA
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK VIEW / PRODUCT DETAILS MODAL -->
+  <div id="quickview-modal" class="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-surface max-w-2xl w-full border border-outline-variant/60 p-6 md:p-10 relative fade-in">
+      <button aria-label="Cerrar vista rápida" onclick="closeQuickView()" class="absolute top-4 right-4 text-secondary hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+        <div class="aspect-[3/4] bg-surface-container-low overflow-hidden">
+          <img id="qv-image" src="" alt="Vista previa prenda" class="w-full h-full object-cover"/>
+        </div>
+        <div class="flex flex-col justify-between h-full space-y-4">
+          <div>
+            <span id="qv-tag" class="text-[11px] uppercase tracking-widest text-secondary font-mono">Básico Esencial</span>
+            <h3 id="qv-title" class="text-xl font-light text-primary mt-1">Nombre Producto</h3>
+            <p id="qv-price" class="text-lg font-mono text-primary mt-2">$0 COP</p>
+            <p id="qv-desc" class="text-xs text-secondary leading-relaxed mt-4">Descripción de tela y corte.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <span class="text-xs uppercase tracking-wider text-secondary block mb-2 font-medium">Talla:</span>
+              <div id="qv-sizes" class="flex gap-2">
+                <!-- Generado dinámico -->
+              </div>
+            </div>
+
+            <button id="qv-add-btn" class="w-full bg-primary text-white py-3.5 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors">
+              Añadir a la Bolsa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-primary text-white px-6 py-3 text-xs uppercase tracking-widest opacity-0 pointer-events-none transition-all duration-300">
+    Prenda agregada a la bolsa
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-surface-container-low border-t border-outline-variant/60 py-16 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+      <div>
+        <span class="text-xl font-light tracking-[0.2em] uppercase text-primary block mb-2">LA CENTENA CLOTHES</span>
+        <p class="text-xs text-secondary max-w-sm font-light">Ropa básica, unicolor, durable. El fondo de armario que funciona todos los días sin llamar la atención innecesariamente.</p>
+      </div>
+
+      <div class="flex flex-wrap gap-8 text-xs uppercase tracking-widest text-secondary font-light">
+        <a href="#catalogo" class="hover:text-primary transition-colors">Catálogo</a>
+        <a href="#manifiesto" class="hover:text-primary transition-colors">Criterio</a>
+        <a href="#" onclick="showToast('Guía de cuidados enviada')" class="hover:text-primary transition-colors">Cuidado Textil</a>
+        <a href="#" onclick="showToast('Soporte: contacto@lacentena.com')" class="hover:text-primary transition-colors">Contacto</a>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-12 pt-6 border-t border-outline-variant/40 flex flex-col sm:flex-row justify-between items-center text-xs text-secondary font-mono">
+      <span>© 2026 LA CENTENA CLOTHES. ESENCIALES SIN MARCA.</span>
+      <span class="mt-2 sm:mt-0">TIENDA ONLINE DESPLEGADA</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPT CON LOGICA COMPLETA DE E-COMMERCE -->
+  <script>
+    // Catálogo de productos básicos
+    const PRODUCTS = [
+      {
+        id: 1,
+        title: "Camiseta Boxy 260 GSM",
+        category: "camisetas",
+        tag: "Esencial Clave",
+        color: "Blanco Crudo / Hueso",
+        price: 68000,
+        desc: "Algodón 100% de 260 gramos con cuello grueso acanalado de 2.5cm que no pierde forma. Silueta ligeramente relajada para uso continuo.",
+        sizes: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 2,
+        title: "Camiseta Boxy 260 GSM",
+        category: "camisetas",
+        tag: "Básico Permanente",
+        color: "Negro Carbón Mate",
+        price: 68000,
+        desc: "Teñido reactivo que mantiene el tono negro profundo tras múltiples lavados. Libre de logotipos exteriores.",
+        sizes: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 3,
+        title: "Pantalón Chino Relajado",
+        category: "pantalones",
+        tag: "Corte Diario",
+        color: "Verde Olivo Lavado",
+        price: 145000,
+        desc: "Sarga de algodón de 10.5 oz con suave toque esmerilado. Corte recto amplio, bolsillos profundos reforzados y pretina limpia.",
+        sizes: ["30", "32", "34", "36"],
+        image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 4,
+        title: "Pantalón Chino Relajado",
+        category: "pantalones",
+        tag: "Corte Diario",
+        color: "Arena / Khaki Claro",
+        price: 145000,
+        desc: "Construcción sólida en algodón respirable. Ideal para vestir con camisetas lisas o prendas de punto.",
+        sizes: ["30", "32", "34", "36"],
+        image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 5,
+        title: "Buzo Cuello Redondo French Terry",
+        category: "fleece",
+        tag: "Gramaje Pesado",
+        color: "Gris Jaspe Medio",
+        price: 135000,
+        desc: "Tejido loopback de 380 GSM. Interior sin cardar para máxima durabilidad y control térmico todo el año.",
+        sizes: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        id: 6,
+        title: "Hoodie Caído Sin Cordones",
+        category: "fleece",
+        tag: "Línea Silenciosa",
+        color: "Grafito Oscuro",
+        price: 155000,
+        desc: "Capota doble estructurada sin cordones metálicos ni plásticos visibles. Bolsillo canguro integrado con costura oculta.",
+        sizes: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=800&q=80"
+      }
+    ];
+
+    // Carrito de compras en memoria
+    let cart = [
+      {
+        id: 1,
+        title: "Camiseta Boxy 260 GSM",
+        color: "Blanco Crudo / Hueso",
+        size: "L",
+        price: 68000,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80"
+      },
+      {
+        id: 3,
+        title: "Pantalón Chino Relajado",
+        color: "Verde Olivo Lavado",
+        size: "32",
+        price: 145000,
+        quantity: 1,
+        image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=400&q=80"
+      }
+    ];
+
+    let currentCategory = 'todos';
+
+    function formatCurrency(amount) {
+      return `$${amount.toLocaleString('es-CO')} COP`;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('product-grid');
+      container.innerHTML = '';
+
+      const filtered = currentCategory === 'todos'
+        ? PRODUCTS
+        : PRODUCTS.filter(p => p.category === currentCategory);
+
+      filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'group flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="relative aspect-[3/4] bg-surface-container-low overflow-hidden cursor-pointer" onclick="openQuickView(${p.id})">
+              <span class="absolute top-3 left-3 z-10 text-[10px] uppercase tracking-widest bg-surface/90 backdrop-blur-sm px-2.5 py-1 text-primary border border-outline-variant/40">
+                ${p.tag}
+              </span>
+              <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500 ease-out"/>
+
+              <!-- Barra rápida de tallas al pasar el cursor -->
+              <div class="absolute bottom-0 inset-x-0 bg-surface/95 backdrop-blur-md p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 border-t border-outline-variant/40 flex justify-between items-center">
+                <span class="text-[11px] uppercase tracking-wider text-secondary font-medium">Agregar:</span>
+                <div class="flex gap-1.5">
+                  ${p.sizes.map(sz => `
+                    <button onclick="event.stopPropagation(); addToCart(${p.id}, '${sz}')" class="text-xs px-2.5 py-1 border border-outline-variant/60 hover:bg-primary hover:text-white transition-colors">
+                      ${sz}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 flex justify-between items-baseline">
+              <h2 class="text-sm font-normal text-primary tracking-wide">${p.title}</h2>
+              <span class="text-sm font-mono text-secondary">${formatCurrency(p.price)}</span>
+            </div>
+            <div class="mt-1 flex justify-between text-xs text-secondary tracking-wide">
+              <span>${p.color}</span>
+              <span class="font-mono text-[11px] uppercase">Unicolor</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function setCategoryFilter(cat) {
+      currentCategory = cat;
+      const pills = document.querySelectorAll('.cat-pill');
+      pills.forEach(pill => {
+        pill.classList.remove('bg-primary', 'text-white');
+        pill.classList.add('bg-surface-container', 'text-secondary');
+      });
+
+      const clickedPill = Array.from(pills).find(p => p.textContent.toLowerCase().includes(cat.slice(0, 4)));
+      if (clickedPill) {
+        clickedPill.classList.remove('bg-surface-container', 'text-secondary');
+        clickedPill.classList.add('bg-primary', 'text-white');
+      }
+      renderProducts();
+    }
+
+    function renderCart() {
+      const itemsContainer = document.getElementById('cart-items-list');
+      const badge = document.getElementById('bag-badge');
+      const countText = document.getElementById('cart-items-count-text');
+      const subtotalEl = document.getElementById('cart-subtotal');
+      const totalEl = document.getElementById('cart-total');
+      const shippingStatus = document.getElementById('shipping-status-text');
+      const shippingProgress = document.getElementById('shipping-progress');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      badge.textContent = `(${totalItems})`;
+      countText.textContent = `${totalItems} artículo${totalItems === 1 ? '' : 's'}`;
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      subtotalEl.textContent = formatCurrency(subtotal);
+      totalEl.textContent = formatCurrency(subtotal);
+
+      // Envío gratis a partir de 120.000
+      const freeThreshold = 120000;
+      if (subtotal >= freeThreshold) {
+        shippingStatus.textContent = "¡Envío gratuito nacional desbloqueado!";
+        shippingProgress.style.width = "100%";
+        document.getElementById('cart-shipping-cost').textContent = "Gratis";
+      } else {
+        const remaining = freeThreshold - subtotal;
+        shippingStatus.textContent = `Agrega ${formatCurrency(remaining)} más para envío gratis`;
+        const percentage = Math.min(100, Math.round((subtotal / freeThreshold) * 100));
+        shippingProgress.style.width = `${percentage}%`;
+        document.getElementById('cart-shipping-cost').textContent = subtotal === 0 ? "$0 COP" : "$12.000 COP";
+      }
+
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = `
+          <div class="text-center py-12 text-secondary space-y-3">
+            <span class="material-symbols-outlined text-4xl text-outline">shopping_bag</span>
+            <p class="text-xs uppercase tracking-widest">Tu bolsa está vacía</p>
+            <button onclick="toggleCartDrawer(false)" class="text-xs text-primary underline">Ver catálogo de esenciales</button>
+          </div>
+        `;
+        return;
+      }
+
+      itemsContainer.innerHTML = cart.map((item, idx) => `
+        <div class="flex gap-4 pb-6 border-b border-outline-variant/40">
+          <div class="w-16 h-20 bg-surface-container-low flex-shrink-0 overflow-hidden">
+            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover"/>
+          </div>
+          <div class="flex flex-col justify-between flex-grow">
+            <div>
+              <div class="flex justify-between items-start">
+                <h3 class="text-xs font-normal text-primary">${item.title}</h3>
+                <span class="text-xs font-mono text-primary">${formatCurrency(item.price * item.quantity)}</span>
+              </div>
+              <p class="text-[11px] text-secondary uppercase tracking-wider mt-0.5">${item.color} / Talla ${item.size}</p>
+            </div>
+            <div class="flex justify-between items-center text-xs mt-2">
+              <div class="flex items-center border border-outline-variant/60">
+                <button onclick="updateQty(${idx}, -1)" class="px-2 py-0.5 text-secondary hover:text-primary">−</button>
+                <span class="px-2 font-mono text-xs">${item.quantity}</span>
+                <button onclick="updateQty(${idx}, 1)" class="px-2 py-0.5 text-secondary hover:text-primary">+</button>
+              </div>
+              <button onclick="removeItem(${idx})" class="text-[11px] uppercase tracking-wider text-secondary hover:text-red-700 transition-colors">
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(productId, size) {
+      const prod = PRODUCTS.find(p => p.id === productId);
+      if (!prod) return;
+
+      const existing = cart.find(item => item.id === productId && item.size === size);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: prod.id,
+          title: prod.title,
+          color: prod.color,
+          size: size,
+          price: prod.price,
+          quantity: 1,
+          image: prod.image
+        });
+      }
+
+      renderCart();
+      showToast(`${prod.title} (Talla ${size}) agregada`);
+    }
+
+    function updateQty(index, change) {
+      if (cart[index]) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) {
+          cart.splice(index, 1);
+        }
+        renderCart();
+      }
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function toggleCartDrawer(open) {
+      const overlay = document.getElementById('cart-drawer-overlay');
+      const drawer = document.getElementById('cart-drawer');
+      if (open) {
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-100');
+        drawer.classList.remove('translate-x-full');
+        document.body.classList.add('overflow-hidden');
+      } else {
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        overlay.classList.remove('opacity-100');
+        drawer.classList.add('translate-x-full');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    // Modal Quick View
+    let activeQuickViewProduct = null;
+    let selectedQuickViewSize = null;
+
+    function openQuickView(id) {
+      const prod = PRODUCTS.find(p => p.id === id);
+      if (!prod) return;
+      activeQuickViewProduct = prod;
+      selectedQuickViewSize = prod.sizes[0];
+
+      document.getElementById('qv-title').textContent = prod.title;
+      document.getElementById('qv-price').textContent = formatCurrency(prod.price);
+      document.getElementById('qv-desc').textContent = prod.desc;
+      document.getElementById('qv-image').src = prod.image;
+      document.getElementById('qv-tag').textContent = `${prod.tag} · ${prod.color}`;
+
+      const sizesCont = document.getElementById('qv-sizes');
+      sizesCont.innerHTML = prod.sizes.map((sz, i) => `
+        <button onclick="selectQvSize('${sz}')" id="qv-sz-${sz}" class="px-3 py-1.5 border text-xs font-mono transition-colors ${i === 0 ? 'border-primary bg-primary text-white' : 'border-outline-variant/60 hover:border-primary'}">
+          ${sz}
+        </button>
+      `).join('');
+
+      document.getElementById('qv-add-btn').onclick = function() {
+        addToCart(prod.id, selectedQuickViewSize);
+        closeQuickView();
+      };
+
+      const modal = document.getElementById('quickview-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function selectQvSize(sz) {
+      selectedQuickViewSize = sz;
+      if (!activeQuickViewProduct) return;
+      activeQuickViewProduct.sizes.forEach(s => {
+        const btn = document.getElementById(`qv-sz-${s}`);
+        if (btn) {
+          if (s === sz) {
+            btn.className = "px-3 py-1.5 border text-xs font-mono border-primary bg-primary text-white transition-colors";
+          } else {
+            btn.className = "px-3 py-1.5 border text-xs font-mono border-outline-variant/60 hover:border-primary transition-colors";
+          }
+        }
+      });
+    }
+
+    function closeQuickView() {
+      const modal = document.getElementById('quickview-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2400);
+    }
+
+    function handleCheckout() {
+      if (cart.length === 0) {
+        showToast("Tu bolsa está vacía");
+        return;
+      }
+      showToast("Conectando con pasarela segura de pago...");
+    }
+
+    // Cerrar al clickear backdrop
+    document.getElementById('cart-drawer-overlay').addEventListener('click', function(e) {
+      if (e.target === this) toggleCartDrawer(false);
+    });
+    document.getElementById('quickview-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeQuickView();
+    });
+
+    // Iniciar
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
